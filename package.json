@@ -29,8 +29,7 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "deps": "taze -wI",
-    "prepack": "nr build",
-    "release": "bumpp && pnpm publish"
+    "release": "bumpp"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.9.0",
