@@ -1,5 +1,13 @@
 declare global {
   namespace JSX {
+    interface ElementAttributesProperty {
+      props: {}
+    }
+
+    interface ElementChildrenAttribute {
+      children: {}
+    }
+
     type Element = TgxElement
 
     interface IntrinsicElements {
@@ -61,7 +69,13 @@ declare global {
   }
 }
 
-export type Props = Record<string, any> | null
+export type Props =
+  | null
+  | ({
+    [key: string]: any
+  } & {
+    children?: TgxNode
+  })
 
 export type TgxElement =
   | TgxTextElement
@@ -69,7 +83,7 @@ export type TgxElement =
 
 export interface TgxFragmentElement {
   type: 'fragment'
-  children: TgxElement[]
+  elements: TgxElement[]
 }
 
 export interface TgxTextElement {
@@ -78,8 +92,10 @@ export interface TgxTextElement {
    * No entity means plain text.
    */
   entity?: TextEntity
-  content: (string | TgxTextElement)[]
+  content: TextContent
 }
+
+type TextContent = (string | TgxTextElement)[]
 
 export type TextEntity =
   | { type: 'bold' }
@@ -94,7 +110,7 @@ export type TextEntity =
   | { type: 'codeblock', language?: string }
 
 export type TgxNode =
-  | Iterable<TgxNode>
+  | TgxNode[]
   | TgxElement
   | string
   | number
@@ -150,30 +166,48 @@ export function jsx(
       throw new Error(`Unsupported tag: ${tag satisfies never}`)
   }
 
-  const children = (props?.children ?? []) as TgxNode
-  delete props?.children
+  const children = props?.children ?? []
 
-  const nodeToContent = (node: TgxNode): (string | TgxTextElement)[] => {
-    if (typeof node === 'string' || typeof node === 'number')
-      return [String(node)]
-    else if (typeof node === 'boolean' || node === null || node === undefined)
-      return []
-    else if (Array.isArray(node))
-      return node.flatMap(child => nodeToContent(child))
-    else
-      return [node as TgxTextElement]
-  }
-
-  const content = nodeToContent(children)
+  const content = nodeToTextContent(children)
   if (tag === 'p')
     content.push('\n')
 
   return { type: 'text', entity, content }
 }
 
-export function Fragment(props: any) {
+export function Fragment(props: { children?: TgxNode } | null): TgxFragmentElement {
+  const children = props?.children ?? []
+
   return {
     type: 'fragment',
-    children: props.children,
+    elements: nodeToElements(children),
   }
+}
+
+function nodeToElements(node: TgxNode): TgxElement[] {
+  if (typeof node === 'string' || typeof node === 'number')
+    return [{ type: 'text', content: [String(node)] }]
+  else if (typeof node === 'boolean' || node === null || node === undefined)
+    return []
+  else if (Array.isArray(node))
+    return node.flatMap(child => nodeToElements(child))
+  else if (node.type === 'text')
+    return [node]
+  else if (node.type === 'fragment')
+    return node.elements
+  else
+    throw new Error(`Node is not a valid element: ${node satisfies never}`)
+}
+
+function nodeToTextContent(node: TgxNode): TextContent {
+  if (typeof node === 'string' || typeof node === 'number')
+    return [String(node)]
+  else if (typeof node === 'boolean' || node === null || node === undefined)
+    return []
+  else if (Array.isArray(node))
+    return node.flatMap(child => nodeToTextContent(child))
+  else if (node.type === 'text')
+    return [node]
+  else
+    throw new Error(`Node is not a valid text node: ${node}`)
 }
