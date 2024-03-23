@@ -6,6 +6,10 @@
   "author": "Vladislav Deryabkin",
   "license": "MIT",
   "homepage": "https://github.com/telegum/tgx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/telegum/tgx"
+  },
   "keywords": [
     "telegram",
     "jsx"
