@@ -1,137 +1,4 @@
-declare global {
-  namespace JSX {
-    interface ElementAttributesProperty {
-      props: {}
-    }
-
-    interface ElementChildrenAttribute {
-      children: {}
-    }
-
-    type Element = TgxElement
-
-    interface IntrinsicElements {
-      /**
-       * Paragraph.
-       */
-      p: PropsWithChildren<{}>
-
-      /**
-       * Bold text.
-       */
-      b: PropsWithChildren<{}>
-
-      /**
-       * Italic text.
-       */
-      i: PropsWithChildren<{}>
-
-      /**
-       * Underlined text.
-       */
-      u: PropsWithChildren<{}>
-
-      /**
-       * Strikethrough text.
-       */
-      s: PropsWithChildren<{}>
-
-      /**
-       * Spoiler.
-       */
-      spoiler: PropsWithChildren<{}>
-
-      /**
-       * Inline fixed-width code.
-       */
-      code: PropsWithChildren<{}>
-
-      /**
-       * Inline URL or Telegram link.
-       */
-      a: PropsWithChildren<{ href: string }>
-
-      /**
-       * Custom Telegram emoji.
-       */
-      emoji: {
-        /**
-         * Unique identifier of the custom emoji.
-         */
-        id: string
-
-        /**
-         * Alternative emoji that will be shown instead of the custom emoji in
-         * places where a custom emoji cannot be displayed.
-         */
-        alt: string
-      }
-
-      /**
-       * Fixed-width code block with the optional programming language.
-       */
-      codeblock: PropsWithChildren<{ lang?: string }>
-
-      /**
-       * Block quotation.
-       */
-      blockquote: PropsWithChildren<{}>
-    }
-  }
-}
-
-export type PropsWithChildren<P = {}> = {
-  children?: TgxNode
-} & P
-
-export type Props =
-  | null
-  | ({
-    [key: string]: any
-  } & {
-    children?: TgxNode
-  })
-
-export type TgxElement =
-  | TgxTextElement
-  | TgxFragmentElement
-
-export interface TgxFragmentElement {
-  type: 'fragment'
-  elements: TgxElement[]
-}
-
-export interface TgxTextElement {
-  type: 'text'
-  /**
-   * No entity means plain text.
-   */
-  entity?: TextEntity
-  content: TextContent
-}
-
-type TextContent = (string | TgxTextElement)[]
-
-export type TextEntity =
-  | { type: 'bold' }
-  | { type: 'italic' }
-  | { type: 'underline' }
-  | { type: 'strikethrough' }
-  | { type: 'spoiler' }
-  | { type: 'blockquote' }
-  | { type: 'link', url: string }
-  | { type: 'custom-emoji', id: string }
-  | { type: 'code' }
-  | { type: 'codeblock', language?: string }
-
-export type TgxNode =
-  | TgxNode[]
-  | TgxElement
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
+import type { Props, TgxElement, TgxFragmentElement, TgxNode } from './types'
 
 export const jsxs = jsx
 
@@ -142,61 +9,7 @@ export function jsx(
   if (typeof tag === 'function')
     return tag(props)
 
-  let entity: TextEntity | undefined
-  switch (tag) {
-    case 'p':
-      entity = undefined
-      break
-    case 'b':
-      entity = { type: 'bold' }
-      break
-    case 'i':
-      entity = { type: 'italic' }
-      break
-    case 'u':
-      entity = { type: 'underline' }
-      break
-    case 's':
-      entity = { type: 'strikethrough' }
-      break
-    case 'spoiler':
-      entity = { type: 'spoiler' }
-      break
-    case 'code':
-      entity = { type: 'code' }
-      break
-    case 'blockquote':
-      entity = { type: 'blockquote' }
-      break
-    case 'a': {
-      const _props = props as JSX.IntrinsicElements['a']
-      entity = { type: 'link', url: _props.href }
-      break
-    }
-    case 'emoji': {
-      const _props = props as JSX.IntrinsicElements['emoji']
-      return {
-        type: 'text',
-        entity: { type: 'custom-emoji', id: _props.id },
-        content: [_props.alt],
-      }
-    }
-    case 'codeblock': {
-      const _props = props as JSX.IntrinsicElements['codeblock']
-      entity = { type: 'codeblock', language: _props.lang }
-      break
-    }
-    default:
-      throw new Error(`Unsupported tag: ${tag satisfies never}`)
-  }
-
-  const children = props?.children ?? []
-  const content = nodeToTextContent(children)
-
-  if (tag === 'p')
-    content.push('\n')
-
-  return { type: 'text', entity, content }
+  return createElementFromIntrinsic(tag, props as JSX.IntrinsicElements[keyof JSX.IntrinsicElements])
 }
 
 export function Fragment(props: { children?: TgxNode } | null): TgxFragmentElement {
@@ -204,34 +17,118 @@ export function Fragment(props: { children?: TgxNode } | null): TgxFragmentEleme
 
   return {
     type: 'fragment',
-    elements: nodeToElements(children),
+    subelements: nodeToElements(children),
+  }
+}
+
+function createElementFromIntrinsic(
+  tag: keyof JSX.IntrinsicElements,
+  props: JSX.IntrinsicElements[keyof JSX.IntrinsicElements],
+): TgxElement {
+  switch (tag) {
+    case 'b':
+      return {
+        type: 'text',
+        entity: { type: 'bold' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['b']).children),
+      }
+    case 'i':
+      return {
+        type: 'text',
+        entity: { type: 'italic' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['i']).children),
+      }
+    case 'u':
+      return {
+        type: 'text',
+        entity: { type: 'underline' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['u']).children),
+      }
+    case 's':
+      return {
+        type: 'text',
+        entity: { type: 'strikethrough' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['s']).children),
+      }
+    case 'spoiler':
+      return {
+        type: 'text',
+        entity: { type: 'spoiler' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['spoiler']).children),
+      }
+    case 'code':
+      return {
+        type: 'text',
+        entity: { type: 'code' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['code']).children),
+      }
+    case 'a':
+      return {
+        type: 'text',
+        entity: { type: 'link', url: (props as JSX.IntrinsicElements['a']).href },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['a']).children),
+      }
+    case 'emoji':
+      return {
+        type: 'text',
+        entity: { type: 'custom-emoji', id: (props as JSX.IntrinsicElements['emoji']).id },
+        subelements: [{ type: 'plain', value: (props as JSX.IntrinsicElements['emoji']).alt }],
+      }
+    case 'codeblock':
+      return {
+        type: 'text',
+        entity: { type: 'codeblock', language: (props as JSX.IntrinsicElements['codeblock']).lang },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['codeblock']).children),
+      }
+    case 'blockquote':
+      return {
+        type: 'text',
+        entity: { type: 'blockquote' },
+        subelements: nodeToElements((props as JSX.IntrinsicElements['blockquote']).children),
+      }
+    case 'photo':
+      return {
+        type: 'photo',
+        file: (props as JSX.IntrinsicElements['photo']).file,
+        spoiler: (props as JSX.IntrinsicElements['photo']).spoiler,
+      }
+    case 'video':
+      return {
+        type: 'video',
+        file: (props as JSX.IntrinsicElements['video']).file,
+        spoiler: (props as JSX.IntrinsicElements['video']).spoiler,
+        duration: (props as JSX.IntrinsicElements['video']).duration,
+        width: (props as JSX.IntrinsicElements['video']).width,
+        height: (props as JSX.IntrinsicElements['video']).height,
+      }
+    case 'keyboard':
+      return {
+        type: 'keyboard',
+        subelements: nodeToElements((props as JSX.IntrinsicElements['keyboard']).children),
+      }
+    case 'button':
+      return {
+        type: 'button',
+        text: (props as JSX.IntrinsicElements['button']).children,
+        data: ('data' in props) ? props.data : undefined,
+        url: ('url' in props) ? props.url : undefined,
+      }
+    default:
+      throw new Error(`Unsupported tag: ${tag satisfies never}`)
   }
 }
 
 function nodeToElements(node: TgxNode): TgxElement[] {
-  if (typeof node === 'string' || typeof node === 'number')
-    return [{ type: 'text', content: [String(node)] }]
-  else if (typeof node === 'boolean' || node === null || node === undefined)
-    return []
+  if (
+    typeof node === 'string'
+    || typeof node === 'number'
+    || typeof node === 'boolean'
+    || node === null
+    || node === undefined
+  )
+    return [{ type: 'plain', value: node }]
   else if (Array.isArray(node))
     return node.flatMap(child => nodeToElements(child))
-  else if (node.type === 'text')
-    return [node]
-  else if (node.type === 'fragment')
-    return node.elements
   else
-    throw new Error(`Node is not a valid element: ${node satisfies never}`)
-}
-
-function nodeToTextContent(node: TgxNode): TextContent {
-  if (typeof node === 'string' || typeof node === 'number')
-    return [String(node)]
-  else if (typeof node === 'boolean' || node === null || node === undefined)
-    return []
-  else if (Array.isArray(node))
-    return node.flatMap(child => nodeToTextContent(child))
-  else if (node.type === 'text')
     return [node]
-  else
-    throw new Error(`Node is not a valid text node: ${node}`)
 }

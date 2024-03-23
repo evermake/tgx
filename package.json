@@ -24,6 +24,7 @@
       "require": "./dist/jsx-runtime.cjs"
     }
   },
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],

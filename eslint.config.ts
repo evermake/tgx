@@ -10,7 +10,7 @@ export default antfu({
     markdown: 'dprint',
   },
 }, {
-  files: ['src/jsx-runtime.ts'],
+  files: ['src/types.ts'],
   rules: {
     'ts/no-namespace': 'off',
     'ts/ban-types': 'off',
