@@ -14,60 +14,75 @@ declare global {
       /**
        * Paragraph.
        */
-      p: {}
+      p: PropsWithChildren<{}>
 
       /**
        * Bold text.
        */
-      b: {}
+      b: PropsWithChildren<{}>
 
       /**
        * Italic text.
        */
-      i: {}
+      i: PropsWithChildren<{}>
 
       /**
        * Underlined text.
        */
-      u: {}
+      u: PropsWithChildren<{}>
 
       /**
        * Strikethrough text.
        */
-      s: {}
+      s: PropsWithChildren<{}>
 
       /**
        * Spoiler.
        */
-      spoiler: {}
+      spoiler: PropsWithChildren<{}>
 
       /**
        * Inline fixed-width code.
        */
-      code: {}
+      code: PropsWithChildren<{}>
 
       /**
        * Inline URL or Telegram link.
        */
-      a: { href: string }
+      a: PropsWithChildren<{ href: string }>
 
       /**
        * Custom Telegram emoji.
        */
-      emoji: { id: string }
+      emoji: {
+        /**
+         * Unique identifier of the custom emoji.
+         */
+        id: string
+
+        /**
+         * Alternative emoji that will be shown instead of the custom emoji in
+         * places where a custom emoji cannot be displayed.
+         */
+        fallback: string
+      }
 
       /**
        * Fixed-width code block with the optional programming language.
        */
-      codeblock: { lang?: string }
+      codeblock: PropsWithChildren<{ lang?: string }>
 
       /**
        * Block quotation.
        */
-      blockquote: {}
+      blockquote: PropsWithChildren<{}>
     }
   }
 }
+
+export type PropsWithChildren<P = {}> = {
+  children?: TgxNode
+} & P
 
 export type Props =
   | null
