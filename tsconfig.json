@@ -9,5 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "eslint.config.ts",
+    "tsup.config.ts"
+  ]
 }
