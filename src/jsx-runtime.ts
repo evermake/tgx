@@ -64,7 +64,7 @@ declare global {
          * Alternative emoji that will be shown instead of the custom emoji in
          * places where a custom emoji cannot be displayed.
          */
-        fallback: string
+        alt: string
       }
 
       /**
@@ -168,22 +168,31 @@ export function jsx(
     case 'blockquote':
       entity = { type: 'blockquote' }
       break
-    case 'a':
-      entity = { type: 'link', url: props?.href }
+    case 'a': {
+      const _props = props as JSX.IntrinsicElements['a']
+      entity = { type: 'link', url: _props.href }
       break
-    case 'emoji':
-      entity = { type: 'custom-emoji', id: props?.id }
+    }
+    case 'emoji': {
+      const _props = props as JSX.IntrinsicElements['emoji']
+      return {
+        type: 'text',
+        entity: { type: 'custom-emoji', id: _props.id },
+        content: [_props.alt],
+      }
+    }
+    case 'codeblock': {
+      const _props = props as JSX.IntrinsicElements['codeblock']
+      entity = { type: 'codeblock', language: _props.lang }
       break
-    case 'codeblock':
-      entity = { type: 'codeblock', language: props?.lang }
-      break
+    }
     default:
       throw new Error(`Unsupported tag: ${tag satisfies never}`)
   }
 
   const children = props?.children ?? []
-
   const content = nodeToTextContent(children)
+
   if (tag === 'p')
     content.push('\n')
 
