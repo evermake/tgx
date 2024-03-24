@@ -72,6 +72,11 @@ declare global {
        */
       blockquote: PropsWithChildren
 
+      /**
+       * Line break.
+       */
+      br: {}
+
       photo: {
         file: any
         spoiler?: boolean
@@ -120,6 +125,7 @@ export type Props =
 export type TgxElement =
   | TgxPlainElement
   | TgxFragmentElement
+  | TgxBrElement
   | TgxTextElement
   | TgxPhotoElement
   | TgxVideoElement
@@ -134,6 +140,10 @@ export interface TgxPlainElement {
 export interface TgxFragmentElement {
   type: 'fragment'
   subelements: TgxElement[]
+}
+
+export interface TgxBrElement {
+  type: 'br'
 }
 
 export interface TgxTextElement {

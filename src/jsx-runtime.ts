@@ -113,6 +113,8 @@ function createElementFromIntrinsic(
         data: ('data' in props) ? props.data : undefined,
         url: ('url' in props) ? props.url : undefined,
       }
+    case 'br':
+      return { type: 'br' }
     default:
       throw new Error(`Unsupported tag: ${tag satisfies never}`)
   }
