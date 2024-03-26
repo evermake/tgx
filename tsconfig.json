@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2022",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@telegum/tgx",
     "baseUrl": ".",
     "module": "ES2022",
     "moduleResolution": "Bundler",
+    "paths": {
+      "@telegum/tgx/jsx-runtime": ["./src/jsx-runtime.ts"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,7 +16,10 @@
   },
   "include": [
     "src/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.tsx",
     "eslint.config.ts",
+    "vitest.config.ts",
     "tsup.config.ts"
   ]
 }

@@ -33,17 +33,24 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
+    "test": "vitest --typecheck",
+    "test:cov": "vitest --typecheck --coverage",
+    "test:ui": "vitest --typecheck --ui",
+    "test:ui:cov": "vitest --typecheck --coverage --ui",
     "deps": "taze -wI",
     "release": "bumpp"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.9.0",
+    "@vitest/coverage-v8": "^1.4.0",
+    "@vitest/ui": "^1.4.0",
     "bumpp": "^9.4.0",
     "eslint": "npm:eslint-ts-patch@8.57.0-0",
     "eslint-plugin-format": "^0.1.0",
     "eslint-ts-patch": "8.57.0-0",
     "taze": "^0.13.3",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
   }
 }
