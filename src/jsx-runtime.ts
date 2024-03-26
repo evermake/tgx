@@ -30,43 +30,43 @@ function createElementFromIntrinsic(
       return {
         type: 'text',
         entity: { type: 'bold' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['b']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['b']).children ?? []),
       }
     case 'i':
       return {
         type: 'text',
         entity: { type: 'italic' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['i']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['i']).children ?? []),
       }
     case 'u':
       return {
         type: 'text',
         entity: { type: 'underline' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['u']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['u']).children ?? []),
       }
     case 's':
       return {
         type: 'text',
         entity: { type: 'strikethrough' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['s']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['s']).children ?? []),
       }
     case 'spoiler':
       return {
         type: 'text',
         entity: { type: 'spoiler' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['spoiler']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['spoiler']).children ?? []),
       }
     case 'code':
       return {
         type: 'text',
         entity: { type: 'code' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['code']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['code']).children ?? []),
       }
     case 'a':
       return {
         type: 'text',
         entity: { type: 'link', url: (props as JSX.IntrinsicElements['a']).href },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['a']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['a']).children ?? []),
       }
     case 'emoji':
       return {
@@ -78,13 +78,13 @@ function createElementFromIntrinsic(
       return {
         type: 'text',
         entity: { type: 'codeblock', language: (props as JSX.IntrinsicElements['codeblock']).lang },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['codeblock']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['codeblock']).children ?? []),
       }
     case 'blockquote':
       return {
         type: 'text',
         entity: { type: 'blockquote' },
-        subelements: nodeToElements((props as JSX.IntrinsicElements['blockquote']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['blockquote']).children ?? []),
       }
     case 'photo':
       return {
@@ -104,7 +104,7 @@ function createElementFromIntrinsic(
     case 'keyboard':
       return {
         type: 'keyboard',
-        subelements: nodeToElements((props as JSX.IntrinsicElements['keyboard']).children),
+        subelements: nodeToElements((props as JSX.IntrinsicElements['keyboard']).children ?? []),
       }
     case 'button':
       return {
