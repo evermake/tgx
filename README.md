@@ -2,7 +2,6 @@
 
 [![npm version](https://img.shields.io/npm/v/%40telegum%2Ftgx?style=flat&logo=npm&labelColor=18181b&color=51a2dd)](https://www.npmjs.com/package/@telegum/tgx) [![coverage](https://img.shields.io/codecov/c/github/telegum/tgx?style=flat&logo=codecov&labelColor=18181b&color=51a2dd)](https://app.codecov.io/gh/telegum/tgx)
 
-https://app.codecov.io/gh/telegum/tgx
 Implementation of `jsx-runtime` to create Telegram messages using JSX.
 
 ## Usage
