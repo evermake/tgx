@@ -94,8 +94,8 @@ declare global {
 
       button:
       & (
-        | { data: string }
-        | { url: string }
+        | { data: string, url?: never }
+        | { data?: never, url: string }
       ) & { children: string }
     }
   }
