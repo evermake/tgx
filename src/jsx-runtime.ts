@@ -115,8 +115,6 @@ function createElementFromIntrinsic(
       }
     case 'br':
       return { type: 'br' }
-    default:
-      throw new Error(`Unsupported tag: ${tag satisfies never}`)
   }
 }
 
