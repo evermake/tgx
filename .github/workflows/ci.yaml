@@ -40,5 +40,13 @@ jobs:
         if: steps.deps.outcome == 'success'
 
       - name: Test
-        run: nr test
+        run: nr test:cov
         if: steps.deps.outcome == 'success'
+        id: test
+
+      - name: Codecov
+        uses: codecov/codecov-action@v4
+        if: steps.test.outcome == 'success'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: coverage
