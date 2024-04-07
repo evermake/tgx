@@ -110,8 +110,9 @@ function createElementFromIntrinsic(
       return {
         type: 'button',
         text: (props as JSX.IntrinsicElements['button']).children,
-        data: ('data' in props) ? props.data : undefined,
-        url: ('url' in props) ? props.url : undefined,
+        ...(('data' in props) ? { data: props.data } : undefined),
+        ...(('url' in props) ? { url: props.url } : undefined),
+        ...(('loginUrl' in props) ? { loginUrl: props.loginUrl } : undefined),
       }
     case 'br':
       return { type: 'br' }

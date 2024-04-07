@@ -94,8 +94,9 @@ declare global {
 
       button:
       & (
-        | { data: string, url?: never }
-        | { data?: never, url: string }
+        | { data: string, url?: never, loginUrl?: never }
+        | { data?: never, url: string, loginUrl?: never }
+        | { data?: never, url?: never, loginUrl: string }
       ) & { children: string }
     }
   }
@@ -177,6 +178,7 @@ export interface TgxButtonElement {
   text: string
   data?: string
   url?: string
+  loginUrl?: string
 }
 
 export type TextEntity =

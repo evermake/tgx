@@ -221,6 +221,7 @@ describe('jsx', () => {
       <keyboard>
         <button data="callback">Callback button</button>
         <button url="https://example.com">URL button</button>
+        <button loginUrl="https://example.com/login">Login URL button</button>
       </keyboard>,
     ).toStrictEqual({
       type: 'keyboard',
@@ -229,13 +230,16 @@ describe('jsx', () => {
           type: 'button',
           text: 'Callback button',
           data: 'callback',
-          url: undefined,
         },
         {
           type: 'button',
           text: 'URL button',
-          data: undefined,
           url: 'https://example.com',
+        },
+        {
+          type: 'button',
+          text: 'Login URL button',
+          loginUrl: 'https://example.com/login',
         },
       ],
     })
@@ -246,13 +250,11 @@ describe('jsx', () => {
       type: 'button',
       text: 'Click me',
       data: 'callback',
-      url: undefined,
     })
 
     expect(<button url="https://example.com">Click me</button>).toStrictEqual({
       type: 'button',
       text: 'Click me',
-      data: undefined,
       url: 'https://example.com',
     })
   })
@@ -389,7 +391,6 @@ describe('jsx', () => {
               type: 'button',
               text: 'Callback button',
               data: 'callback',
-              url: undefined,
             },
             {
               type: 'fragment',
@@ -403,7 +404,6 @@ describe('jsx', () => {
                     {
                       type: 'button',
                       text: 'URL button',
-                      data: undefined,
                       url: 'https://example.com',
                     },
                   ],
