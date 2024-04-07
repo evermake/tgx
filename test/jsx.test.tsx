@@ -222,6 +222,16 @@ describe('jsx', () => {
         <button data="callback">Callback button</button>
         <button url="https://example.com">URL button</button>
         <button loginUrl="https://example.com/login">Login URL button</button>
+        <button
+          loginUrl={{
+            url: 'https://example.com/login',
+            bot_username: 'bot',
+            request_write_access: true,
+            forward_text: 'Forward text',
+          }}
+        >
+          Login URL button
+        </button>
       </keyboard>,
     ).toStrictEqual({
       type: 'keyboard',
@@ -240,6 +250,16 @@ describe('jsx', () => {
           type: 'button',
           text: 'Login URL button',
           loginUrl: 'https://example.com/login',
+        },
+        {
+          type: 'button',
+          text: 'Login URL button',
+          loginUrl: {
+            url: 'https://example.com/login',
+            bot_username: 'bot',
+            request_write_access: true,
+            forward_text: 'Forward text',
+          },
         },
       ],
     })
@@ -307,6 +327,8 @@ describe('jsx', () => {
               Bold text and
               {' '}
               <button url="https://example.com">URL button</button>
+              <button loginUrl="https://example.com/login1">Login button</button>
+              <button loginUrl={{ url: 'https://example.com/login2' }}>Login button 2</button>
             </b>
           </>
         </keyboard>
@@ -405,6 +427,16 @@ describe('jsx', () => {
                       type: 'button',
                       text: 'URL button',
                       url: 'https://example.com',
+                    },
+                    {
+                      type: 'button',
+                      text: 'Login button',
+                      loginUrl: 'https://example.com/login1',
+                    },
+                    {
+                      type: 'button',
+                      text: 'Login button 2',
+                      loginUrl: { url: 'https://example.com/login2' },
                     },
                   ],
                 },

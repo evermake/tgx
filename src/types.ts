@@ -1,3 +1,5 @@
+import type { LoginUrl } from 'grammy/types'
+
 declare global {
   namespace JSX {
     interface ElementAttributesProperty {
@@ -96,7 +98,7 @@ declare global {
       & (
         | { data: string, url?: never, loginUrl?: never }
         | { data?: never, url: string, loginUrl?: never }
-        | { data?: never, url?: never, loginUrl: string }
+        | { data?: never, url?: never, loginUrl: string | LoginUrl }
       ) & { children: string }
     }
   }
@@ -178,7 +180,7 @@ export interface TgxButtonElement {
   text: string
   data?: string
   url?: string
-  loginUrl?: string
+  loginUrl?: string | LoginUrl
 }
 
 export type TextEntity =
