@@ -2,7 +2,7 @@
   "name": "@telegum/tgx",
   "type": "module",
   "version": "0.1.1",
-  "packageManager": "pnpm@8.15.5",
+  "packageManager": "pnpm@8.15.6",
   "author": "Vladislav Deryabkin",
   "license": "MIT",
   "homepage": "https://github.com/telegum/tgx",
@@ -41,7 +41,7 @@
     "release": "bumpp"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.9.0",
+    "@antfu/eslint-config": "^2.12.2",
     "@vitest/coverage-v8": "^1.4.0",
     "@vitest/ui": "^1.4.0",
     "bumpp": "^9.4.0",
@@ -50,7 +50,7 @@
     "eslint-ts-patch": "8.57.0-0",
     "taze": "^0.13.3",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.4",
     "vitest": "^1.4.0"
   }
 }
