@@ -24,13 +24,13 @@
     },
     "./jsx-runtime": {
       "types": "./dist/jsx-runtime.d.ts",
-      "import": "./dist/jsx-runtime.mjs",
-      "require": "./dist/jsx-runtime.js"
+      "import": "./dist/jsx-runtime.js",
+      "require": "./dist/jsx-runtime.cjs"
     },
     "./jsx-dev-runtime": {
       "types": "./dist/jsx-runtime.d.ts",
-      "import": "./dist/jsx-runtime.mjs",
-      "require": "./dist/jsx-runtime.js"
+      "import": "./dist/jsx-runtime.js",
+      "require": "./dist/jsx-runtime.cjs"
     }
   },
   "types": "./dist/index.d.ts",
