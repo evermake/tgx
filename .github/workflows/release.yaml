@@ -38,7 +38,10 @@ jobs:
         run: pnpm run build
 
       - name: Publish to npm
-        run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          echo "@telegum:registry=https://registry.npmjs.org/" >> ~/.npmrc
+          pnpm publish --no-git-checks --access public
