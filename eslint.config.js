@@ -1,3 +1,4 @@
+// @ts-check
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
@@ -9,10 +10,9 @@ export default antfu({
   formatters: {
     markdown: 'dprint',
   },
+  markdown: false,
 }, {
-  files: ['src/types.ts'],
   rules: {
-    'ts/no-namespace': 'off',
-    'ts/ban-types': 'off',
+    'ts/no-empty-object-type': 'off',
   },
 })

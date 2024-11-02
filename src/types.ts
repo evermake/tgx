@@ -1,107 +1,89 @@
-import type { LoginUrl } from 'grammy/types'
+import type { PrismLanguage } from './utils/prism-languages'
+import type { StringWithSuggestions } from './utils/types'
 
-declare global {
-  namespace JSX {
-    interface ElementAttributesProperty {
-      props: {}
-    }
+export interface NativeElements {
+  /**
+   * Bold text.
+   */
+  b: PropsWithChildren
 
-    interface ElementChildrenAttribute {
-      children: {}
-    }
+  /**
+   * Italic text.
+   */
+  i: PropsWithChildren
 
-    type Element = TgxElement
+  /**
+   * Underlined text.
+   */
+  u: PropsWithChildren
 
-    interface IntrinsicElements {
-      /**
-       * Bold text.
-       */
-      b: PropsWithChildren
+  /**
+   * Strikethrough text.
+   */
+  s: PropsWithChildren
 
-      /**
-       * Italic text.
-       */
-      i: PropsWithChildren
+  /**
+   * Spoiler.
+   */
+  spoiler: PropsWithChildren
 
-      /**
-       * Underlined text.
-       */
-      u: PropsWithChildren
+  /**
+   * Inline URL or Telegram (deep) link.
+   *
+   * Read more about Telegram deep links:
+   * https://core.telegram.org/api/links
+   */
+  a: PropsWithChildren<{
+    /**
+     * Link to open.
+     *
+     * @example "https://google.com"
+     * @example "tg://resolve?domain=BotFather"
+     */
+    href: string
+  }>
 
-      /**
-       * Strikethrough text.
-       */
-      s: PropsWithChildren
+  /**
+   * Custom Telegram emoji.
+   */
+  emoji: {
+    /**
+     * Unique identifier of the custom emoji.
+     */
+    id: string
 
-      /**
-       * Spoiler.
-       */
-      spoiler: PropsWithChildren
-
-      /**
-       * Inline fixed-width code.
-       */
-      code: PropsWithChildren
-
-      /**
-       * Inline URL or Telegram link.
-       */
-      a: PropsWithChildren<{ href: string }>
-
-      /**
-       * Custom Telegram emoji.
-       */
-      emoji: {
-        /**
-         * Unique identifier of the custom emoji.
-         */
-        id: string
-
-        /**
-         * Alternative emoji that will be shown instead of the custom emoji in
-         * places where a custom emoji cannot be displayed.
-         */
-        alt: string
-      }
-
-      /**
-       * Fixed-width code block with the optional programming language.
-       */
-      codeblock: PropsWithChildren<{ lang?: string }>
-
-      /**
-       * Block quotation.
-       */
-      blockquote: PropsWithChildren
-
-      /**
-       * Line break.
-       */
-      br: {}
-
-      photo: {
-        file: any
-        spoiler?: boolean
-      }
-
-      video: {
-        file: any
-        spoiler?: boolean
-        duration?: number
-        width?: number
-        height?: number
-      }
-
-      keyboard: PropsWithChildren
-
-      button:
-      & (
-        | { data: string, url?: never, loginUrl?: never }
-        | { data?: never, url: string, loginUrl?: never }
-        | { data?: never, url?: never, loginUrl: string | LoginUrl }
-      ) & { children: string }
-    }
+    /**
+     * Alternative emoji that will be shown instead of the custom emoji in
+     * places where a custom emoji cannot be displayed.
+     */
+    alt: string
   }
+
+  /**
+   * Inline fixed-width code.
+   */
+  code: PropsWithChildren
+
+  /**
+   * Fixed-width code block with the optional programming language.
+   */
+  codeblock: PropsWithChildren<{
+    /**
+     * Programming or markup language of the block.
+     *
+     * Telegram uses libprisma for code highlighting,
+     * so the following languages are supported:
+     * https://github.com/TelegramMessenger/libprisma#supported-languages
+     */
+    lang?: StringWithSuggestions<PrismLanguage>
+  }>
+
+  /**
+   * Block quotation. Can be expandable or not.
+   */
+  blockquote: PropsWithChildren<{
+    expandable?: boolean
+  }>
 }
 
 export type TgxNode =
@@ -117,25 +99,14 @@ export type PropsWithChildren<P = {}> = {
   children?: TgxNode
 } & P
 
-export type Props =
-  | null
-  | ({
-    [key: string]: any
-  } & {
-    children?: TgxNode
-  })
+export type FunctionComponent = (props: any) => TgxElement
 
 export type TgxElement =
-  | TgxPlainElement
+  | TgxPlainValueElement
   | TgxFragmentElement
-  | TgxBrElement
   | TgxTextElement
-  | TgxPhotoElement
-  | TgxVideoElement
-  | TgxKeyboardElement
-  | TgxButtonElement
 
-export interface TgxPlainElement {
+export interface TgxPlainValueElement {
   type: 'plain'
   value: string | number | boolean | null | undefined
 }
@@ -145,42 +116,10 @@ export interface TgxFragmentElement {
   subelements: TgxElement[]
 }
 
-export interface TgxBrElement {
-  type: 'br'
-}
-
 export interface TgxTextElement {
   type: 'text'
   entity: TextEntity
   subelements: TgxElement[]
-}
-
-export interface TgxPhotoElement {
-  type: 'photo'
-  file: any
-  spoiler?: boolean
-}
-
-export interface TgxVideoElement {
-  type: 'video'
-  file: any
-  spoiler?: boolean
-  duration?: number
-  width?: number
-  height?: number
-}
-
-export interface TgxKeyboardElement {
-  type: 'keyboard'
-  subelements: TgxElement[]
-}
-
-export interface TgxButtonElement {
-  type: 'button'
-  text: string
-  data?: string
-  url?: string
-  loginUrl?: string | LoginUrl
 }
 
 export type TextEntity =
@@ -188,9 +127,9 @@ export type TextEntity =
   | { type: 'italic' }
   | { type: 'underline' }
   | { type: 'strikethrough' }
-  | { type: 'code' }
   | { type: 'spoiler' }
-  | { type: 'blockquote' }
   | { type: 'link', url: string }
+  | { type: 'custom-emoji', id: string, alt: string }
+  | { type: 'code' }
   | { type: 'codeblock', language?: string }
-  | { type: 'custom-emoji', id: string }
+  | { type: 'blockquote', expandable: boolean }

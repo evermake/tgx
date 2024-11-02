@@ -17,36 +17,34 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-
-      - name: Setup ni
-        run: npm i -g @antfu/ni
+          node-version: 20
+          cache: pnpm
 
       - name: Install dependencies
-        run: nci
+        run: pnpm i
         id: deps
 
       - name: Lint
-        run: nr lint
-        if: steps.deps.outcome == 'success'
+        run: pnpm run lint
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
 
       - name: Typecheck
-        run: nr typecheck
-        if: steps.deps.outcome == 'success'
+        run: pnpm run typecheck
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
 
       - name: Test
-        run: nr test:cov
-        if: steps.deps.outcome == 'success'
+        run: pnpm run test:cov
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         id: test
 
       - name: Codecov
         uses: codecov/codecov-action@v4
-        if: steps.test.outcome == 'success'
+        if: ${{ !cancelled() && steps.test.outcome == 'success' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: coverage

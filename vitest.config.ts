@@ -13,7 +13,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@telegum/tgx': '/src',
+      '@telegum/tgx/jsx-runtime': '/src/jsx-runtime',
     },
   },
 })

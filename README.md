@@ -1,56 +1,57 @@
-# TGX — Telegram JSX
-
-[![npm version](https://img.shields.io/npm/v/%40telegum%2Ftgx?style=flat&logo=npm&labelColor=18181b&color=51a2dd)](https://www.npmjs.com/package/@telegum/tgx) [![coverage](https://img.shields.io/codecov/c/github/telegum/tgx?style=flat&logo=codecov&labelColor=18181b&color=51a2dd)](https://app.codecov.io/gh/telegum/tgx)
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![license][license-src]][license-href]
+[![coverage][coverage-src]][coverage-href]
 
 Implementation of `jsx-runtime` to create Telegram messages using JSX.
 
-## Usage
+## Installation
 
-> [!NOTE]
-> This package only provides the runtime for JSX that just transforms JSX syntax into TGX elements.
-> What will be done with these elements is up to you or other packages.
+```
+npm i @telegum/tgx
+```
 
-1. Install the package:
+Then in your `tsconfig.json`:
 
-   ```sh
-   npm install @telegum/tgx
-   ```
+```jsonc
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@telegum/tgx",
+    // ...
+  }
+}
+```
 
-2. Update JSX-related options in your `tsconfig.json`:
+## Example
 
-   ```json
-   {
-     "compilerOptions": {
-       // ...
-       "jsx": "react-jsx",
-       "jsxImportSource": "@telegum/tgx"
-       // ...
-     }
-   }
-   ```
+Usage with [grammY](https://grammy.dev):
 
-3. Use JSX in your code:
+```tsx
+import { html } from '@telegum/tgx'
+import { Bot } from 'grammy'
 
-   ```tsx
-   // example.jsx
-   import { bot } from 'example-telegram-framework'
+const Greeting = (props: { name: string }) => (
+  <>Hello, <b>{props.name}</b>!</>
+)
 
-   function UserCard({ id, name }) {
-     return (
-       <>
-         <b>
-           Your name:
-           {name}
-         </b>
-         <i>
-           Your ID:
-           {id}
-         </i>
-       </>
-     )
-   }
+const bot = new Bot(/* TOKEN */)
+bot.command('start', async (ctx) => {
+  await ctx.reply(
+    html(<Greeting name={ctx.from.first_name} />),
+    { parse_mode: 'HTML' }
+  )
+})
+```
 
-   bot.on('message', (ctx) => {
-     ctx.reply(<UserCard id={ctx.user.id} name={ctx.user.first_name} />)
-   })
-   ```
+## License
+
+[MIT](./LICENSE)
+
+<!-- Badges -->
+
+[npm-downloads-src]: https://img.shields.io/npm/dm/%40telegum%2Ftgx?style=flat&color=e23f79&label=npm
+[npm-downloads-href]: https://npmjs.com/package/@telegum/tgx
+[license-src]: https://img.shields.io/github/license/telegum/tgx?style=flat&color=e23f79&label=license
+[license-href]: https://github.com/telegum/tgx/blob/main/LICENSE
+[coverage-src]: https://img.shields.io/codecov/c/github/telegum/tgx?style=flat&color=e23f79&label=coverage
+[coverage-href]: https://app.codecov.io/gh/telegum/tgx
