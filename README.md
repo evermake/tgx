@@ -49,9 +49,9 @@ bot.command('start', async (ctx) => {
 
 <!-- Badges -->
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/%40telegum%2Ftgx?style=flat&color=e23f79&label=npm
+[npm-downloads-src]: https://img.shields.io/npm/dm/%40telegum%2Ftgx?style=flat&color=e23f79&labelColor=000&label=npm
 [npm-downloads-href]: https://npmjs.com/package/@telegum/tgx
-[license-src]: https://img.shields.io/github/license/telegum/tgx?style=flat&color=e23f79&label=license
+[license-src]: https://img.shields.io/github/license/telegum/tgx?style=flat&color=e23f79&labelColor=000&label=license
 [license-href]: https://github.com/telegum/tgx/blob/main/LICENSE
-[coverage-src]: https://img.shields.io/codecov/c/github/telegum/tgx?style=flat&color=e23f79&label=coverage
+[coverage-src]: https://img.shields.io/codecov/c/github/telegum/tgx?style=flat&color=e23f79&labelColor=000&label=coverage
 [coverage-href]: https://app.codecov.io/gh/telegum/tgx
