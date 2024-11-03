@@ -35,12 +35,15 @@ const Greeting = (props: { name: string }) => (
 )
 
 const bot = new Bot(/* TOKEN */)
+
 bot.command('start', async (ctx) => {
   await ctx.reply(
     html(<Greeting name={ctx.from.first_name} />),
     { parse_mode: 'HTML' }
   )
 })
+
+bot.start()
 ```
 
 ## License
