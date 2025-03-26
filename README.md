@@ -1,3 +1,5 @@
+![tgx](tgx.png)
+
 Implementation of `jsx-runtime` to create Telegram messages using JSX.
 
 ## Installation
