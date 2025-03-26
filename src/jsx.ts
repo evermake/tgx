@@ -1,4 +1,10 @@
-import type { FunctionComponent, NativeElements, TgxElement, TgxFragmentElement, TgxNode } from './types'
+import type {
+  FunctionComponent,
+  NativeElements,
+  TgxElement,
+  TgxFragmentElement,
+  TgxNode,
+} from './types.ts'
 
 export function render<T extends keyof NativeElements>(
   type: T,

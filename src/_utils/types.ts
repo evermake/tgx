@@ -1,3 +1,5 @@
+export type StringWithSuggestions<S extends string> = S | (string & {})
+
 /**
  * Aliases of all languages that are supported by [libprisma](https://github.com/TelegramMessenger/libprisma)
  * (library that Telegram uses for highlighting syntax of code blocks).

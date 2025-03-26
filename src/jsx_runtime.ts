@@ -1,5 +1,5 @@
-import type { FunctionComponent, NativeElements, TgxElement } from './types'
-import { Fragment, render } from './jsx'
+import type { FunctionComponent, NativeElements, TgxElement } from './types.ts'
+import { Fragment, render } from './jsx.ts'
 
 function jsx(type: any, props: any, key: any): any {
   const { children } = props
@@ -17,7 +17,6 @@ export {
   jsx as jsxDEV,
 }
 
-// eslint-disable-next-line ts/no-namespace
 export namespace JSX {
   export type Element = TgxElement
   export type ElementType =

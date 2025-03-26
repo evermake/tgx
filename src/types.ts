@@ -1,5 +1,4 @@
-import type { PrismLanguage } from './utils/prism-languages'
-import type { StringWithSuggestions } from './utils/types'
+import type { StringWithSuggestions, PrismLanguage } from './_utils/types.ts'
 
 export interface NativeElements {
   /**

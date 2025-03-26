@@ -1,4 +1,4 @@
-import type { TgxElement, TgxPlainValueElement, TgxTextElement } from './types'
+import type { TgxElement, TgxPlainValueElement, TgxTextElement } from './types.ts'
 
 /**
  * Converts {@link TgxElement} to an HTML string formatted for Telegram's
